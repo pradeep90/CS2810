@@ -10,6 +10,7 @@
 
   To do:
   * Check input string for non-numeral characters
+
   */
 
 #include <fstream>
