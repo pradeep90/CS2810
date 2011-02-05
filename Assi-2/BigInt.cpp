@@ -1,17 +1,12 @@
 /*
-  Title : Linked List Implementation in C++
-
-  Purpose : To implement a Linked List using classes
+  Title : Big Integer Implementation in C++
 
   Author : S. Pradeep Kumar
   Date : 16 - 01 - 2011
 
 
   To compile:
-  g++ linkedlist.cpp
-
-  To execute:
-  ./a.out
+  Use makefile
 
   To do:
   * Check input string for non-numeral characters
