@@ -1,0 +1,3 @@
+To compile:
+
+g++ BigInt.cpp llist.cpp

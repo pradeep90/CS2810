@@ -1,0 +1,83 @@
+/*
+  Title : Linked List Implementation in C++
+
+  Purpose : To implement a Linked List using classes
+
+  Author : S. Pradeep Kumar
+  Date : 16 - 01 - 2011
+
+
+  To compile:
+  g++ linkedlist.cpp
+
+  To execute:
+  ./a.out
+
+  To do:
+  * Check input string for non-numeral characters
+*/
+
+#include <iostream>
+#include <cstdlib>
+#include "linkedlist.h"
+
+using namespace std;
+
+
+class BigInt
+{
+private:
+     List l;
+     int len;
+     bool sign;
+     string str[1000];
+public:     
+     BigInt () {};
+     ~BigInt () {};
+
+     // Accessors
+     string to_string ();
+     digit_iter l_sig_digit ();
+     
+     // Modifiers
+     void from_string (string str);
+     void set_next_digit (digit_iter dig, int num);
+     void copy (BigInt a);
+};
+
+string BigInt::to_string()
+{
+
+     
+}
+
+void BigInt::from_string (string str)
+{
+     string::iterator iter;
+     for (iter = str.begin(); iter < str.end(); iter++){
+	  l.insert (int (*iter - int('0')));
+     }
+     l.print_List ();
+}
+
+digit_iter l_sig_digit ()
+{
+}
+
+void set_next_digit (digit_iter dig, int num)
+{
+}
+
+void copy (BigInt a)
+{
+}
+
+     
+int main()
+{
+     BigInt a;
+     a.from_string (string ("9283423984238215430958235123"));
+}
+
+
+

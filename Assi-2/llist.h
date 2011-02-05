@@ -1,0 +1,49 @@
+#ifndef LLIST_H
+#define LLIST_H
+class Node 
+{ 
+public: 
+     int val; 
+     Node *next; 
+};
+
+class IntList {
+private:
+     Node * head;
+public:
+     class Iterator
+     {
+     private:
+	  Node * curr_node;
+     public:
+	  Iterator ();
+	  Iterator (const Iterator & orig_iter);		//  Copy constructor
+	  Iterator operator=(const Iterator & orig_iter);	//  Assignment operator
+	  Iterator operator++();				//  Postfix operator
+	  int &operator*() const;				//  Operators to return elements contained in the list 
+	  bool operator==(Iterator orig_iter) const;		//  Operators to compare two iterators 
+	  bool operator!=(Iterator orig_iter) const;
+	  void print();
+	  friend class IntList;
+     };
+
+     IntList();						//  Constructor 
+     IntList(const IntList & llist);			//  Copy constructor
+     IntList &	operator = (const IntList & llist);		//  Assignment Operator 
+     bool empty() const;					//  Function to check if the list is empty 
+     unsigned int size() const;				//  Function to return the number of elements 
+     void push_back(int value);				//  Functions to add an element to the start and end of the list 
+     void push_front(int value);
+     int pop_back();					//  Functions to remove an element from the start and end of the list 
+     int pop_front();
+     void clear();						//  Function to delete all elements from the list 
+     /* Functions to start and end an iteration*/
+     Iterator begin() const;				// begin returns an Iterator corresponding to the begin element
+     Iterator end() const;					// end should return an element that indicates that iterator is complete. That is it should return the value obtained on incrementing an iterator corresponding to the last element.
+     void insert( const Iterator &given_iter, int value);	//  insert adds an element after the given iterator 
+     void remove(Iterator &given_iter);			// remove, deletes the element at the iterator and moves the iterator to the next element
+     void print ();
+     ~IntList();						//  Destructor to delete elements 
+};
+
+#endif

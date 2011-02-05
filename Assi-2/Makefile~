@@ -1,0 +1,8 @@
+BigInt.exe: BigInt.o linkedlist.o
+	g++ BigInt.o linkedlist.o -o BigInt.exe
+
+BigInt.o: BigInt.cpp linkedlist.h
+	g++ -c BigInt.cpp
+
+linkedlist.o: linkedlist.cpp linkedlist.h
+	g++ -c linkedlist.cpp
