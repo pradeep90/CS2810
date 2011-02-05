@@ -9,7 +9,9 @@
   Use makefile
 
   To do:
+
   * Check input string for non-numeral characters
+  * Make from_integer more efficient by inserting after iterator instead of push_back ()
 
   */
 
@@ -195,8 +197,6 @@ void BigInt::multiply (BigInt a, BigInt b)
      
 }
 
-
-
 void BigInt::negation ()
 {
      sign = ~sign;
@@ -220,22 +220,19 @@ void BigInt::factorial ()
      *this = fact;
      
 }
-
-
-// digit_iter l_sig_digit ()
-// {
-// }
-
-// void set_next_digit (digit_iter dig, int num)
-// {
-// }
-
-// void copy (BigInt a)
-// {
-// }
-
-
      
+void get_next_input (fstream &infile ,string &str)
+{
+     getline (infile, str, '$');
+     int found = str.find_first_of('\n');
+     while (found != string::npos)
+     {
+	  str.erase (found, 1);
+	  found = str.find_first_of('\n',found);
+     }
+}
+
+
 int main()
 {
      BigInt a, b, c;
@@ -266,13 +263,11 @@ int main()
      
      while ( s != "$"){
 	  if (s == "+"){
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       a.from_string (s);
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       b.from_string (s);
 	       time1 = time (NULL);
 	       c.add (a, b);
@@ -280,9 +275,8 @@ int main()
 	       t_taken = time2 - time1;
 	  }
 	  else if (s == "-") {
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       c.from_string (s);
 	       time1 = time (NULL);
 	       c.negation ();
@@ -290,13 +284,11 @@ int main()
 	       t_taken = time2 - time1;
 	  }
 	  else if (s == "*") {
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       a.from_string (s);
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       b.from_string (s);
 	       time1 = time (NULL);
 	       c.multiply (a, b);
@@ -304,9 +296,8 @@ int main()
 	       t_taken = time2 - time1;
 	  }
 	  else if (s == "!") {
-	       infile >> s;
+	       get_next_input (infile, s);
 	       cout << s << endl;
-	       s.erase (s.length () - 1, 1);
 	       c.from_string (s);
 	       time1 = time (NULL);
 	       c.factorial ();
@@ -316,9 +307,10 @@ int main()
 
 	  outfile << i++ << endl;
 	  outfile << t_taken << endl;
-	  outfile << "value : " << c.to_string () << '$' << endl;
+	  outfile << c.to_string () << '$' << endl;
 	  infile >> s;
      }
+
      return 0;
      
 }
