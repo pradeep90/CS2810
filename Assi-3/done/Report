@@ -1,0 +1,25 @@
+Team Members:
+
+1)S. Pradeep Kumar    cs09b021
+2)Prateek Agrawal     cs09b018
+3)K. Himaja           cs09b014
+
+Q1)Compare and contrast the representation of a point in the cartesian
+co-ordinate system and in the polar co-ordinate system
+
+Sol:
+
+Representation:
+	Cartisian co-ordinate system is represtented by X & Y axis which are fixed and perpendicular to each other.
+	while Polar is represented by perpendicular axis R & Theta which are can change .
+	
+	Also range of x & y is whole number line where as in polar co-ordinate system range of R is whole number line where as range of theta is from [0,2*PI]
+
+Q2.) Changes made to the previous Linked List Implementation to make Big Integer Division and Subtraction work.
+     First, the Linked List had to be converted to a Doubly Linked List in order to support traversal from most significant digit to least, which is required in the case of Division.
+     The Iterator needed another overloaded operator - --, which would be used for backward traversal.
+     Also, the Big Integer got another overloaded operator, >=, which would be used to compare two Big Integers.
+
+Q3.) Mechanisms to make the program more efficient -
+     For multiplication, each digit of the product was calculated at one go by multiplying each digit of the multiplicand with each corresponding digit of the multiplier. This way, there was no need to keep iterating through both lists.
+     Also, once the linked list was made doubly-linked, various operations like push_back, etc. were made faster by the direct access to the tail pointer.

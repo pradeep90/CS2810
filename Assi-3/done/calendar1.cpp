@@ -1,0 +1,213 @@
+/************************************************************************************************************************************************************
+Zeller's Congruence:
+
+			day = (date + FLOOR[2.6*month +2.6] + year + FLOOR[year/4] + FLOOR[century/4] + 5*century) mod7
+
+This is for GREGORIAN calendar
+This formula is based on the observation that the day of the week progresses in a predictable manner based upon each subpart of that date. Each term within the formula is used to calculate the offset needed to obtain the correct day of the week.
+
+* date represents the progression of the day of the week based on the day of the month, ie keeping month & year constant succeeding days will change according to dates 
+
+*Assuming that each year is 365 days long, the same date on each succeeding year will be offset by a value of 365\mod 7 = 1.
+
+* Since there are 366 days in each leap year, this needs to be accounted for by adding an additional day to the day of the week offset value. This is accomplished by adding FLOOR[year/4]. This term is calculated as an integer result. Any remainder is discarded.
+
+* Using similar logic, the progression of the day of the week for each century may be calculated by observing that there are 36524 days in a normal century and 36525 days in each century divisible by 400. Since 36525\mod 7 = 6 and 36524\mod 7 = 5, the term :FLOOR[century/4] - 2*century accounts for this.To avoid negative numbers, this term can be replaced with :FLOOR[century/4] + 5*century with equivalent results.
+
+* The term FLOOR[(month+1)2.6] can be explained as follows. Zeller observed that, by starting each year on March 1, the day of the week for each succeeding month progressed by multiplying the month by a constant value and discarding the fractional remainder.
+
+* The overall function, \mod 7, normalizes the result to reside in the range of 0 to 6, which yields the index of the correct day of the week for the date being analyzed.
+
+NOTE: In this algorithm January and February are counted as months 13 and 14 of the previous year. E.g. if it is February 2, 2010, the algorithm counts the date as the second day of the fourteenth month of 2009 (02/14/2009 in DD/MM/YYYY format)
+
+			day = (date + FLOOR[2.6*month +2.6] + year + FLOOR[year/4] + 5 +6*century) mod7
+			this is for JULIAN calendar
+ - source(Wikipedia)
+***************************************************************************************************************************************************************/
+
+
+
+#include<iostream>
+#include<cstdlib>
+
+using namespace std;
+
+class Date
+{
+     int dd, mm, yy, flag,day;
+public:
+
+     void get_date ();
+     int error();
+     int calculate_day ();
+     void print_day ();
+};
+
+void Date:: get_date()
+{
+     int d,i=0;
+     char s[3];
+	
+     cout<<"\nEnter date in format dd/mm/yyyy ";
+     cin.getline( s,3 ,'/');
+     dd = atoi(s);
+     cin.getline( s,3, '/');
+     mm = atoi(s);
+     cin>>yy;
+}
+
+int Date::error()
+{
+     if(yy<=0)
+     {
+	  cout<<"Enter non zero year"<<endl;
+	  return 1;
+     }
+     else if(yy>9999)
+     {
+	  cout<<"Enter year in 4 digits only"<<endl;
+	  return 1;
+     }
+     else if(mm<1 || mm>12)
+     {
+	  cout<<"Enter month between 1 & 12"<<endl;
+	  return 1;
+     }
+     else if(dd>31 ||dd<1)
+     {
+	  cout<<"Enter date btw 1 &31"<<endl;
+	  return 1;
+     }
+     else if(dd==31 && (mm ==2||mm==4||mm==6||mm==9||mm==11))
+     {
+	  cout<<"This month can't have 31 days"<<endl;
+	  return 1;
+     }
+     else if(dd==30 && mm==2)
+     {
+	  cout<<"Feb cant have 30 days"<<endl;
+	  return 1;
+     }
+     else if(dd==29 && mm==2 && (yy%4!=0 ||yy%400==0))
+     {
+	  cout<<"Sorry "<<yy<<" is not leap year"<<endl;
+	  return 1;
+     }
+     else
+	  return 0;
+}
+int Date::calculate_day()
+{
+     int z,t,c,g;
+     if(yy>1752 || (yy==1752 && mm>9) ||(yy==1752 && mm==9 && dd>13))
+     {
+	  if(mm==1 || mm ==2)
+	       mm = mm +12;
+		
+	  if(yy%100==0 && (mm==13||mm==14))				//Gregorian calendar started from 14 sept 1752
+	  {
+	       c = yy/100 -1;
+	       yy = 99;
+	  }
+	  else
+	  {
+	       c=yy/100;
+	
+	       if(mm == 13 || mm ==14)
+		    yy=yy%100 - 1;
+	       else
+		    yy=yy%100;
+	  }
+	
+	  t=yy/4;
+	  z=2.6*mm +2.6;
+	  g=c/4;
+	  day = (dd + z + yy + t + g + 5*c)%7;
+	  flag=1;
+     }
+     else if(yy==1752&&mm==9&& dd>3)						//No dates from 3 to 13 sept 1752
+     {
+	  flag=3;
+     }
+     else
+     {
+	  {
+	       if(mm==1 || mm ==2)
+		    mm = mm +12;
+		
+	       if(yy%100==0 && (mm==13||mm==14))
+	       {
+		    c = yy/100 -1;
+		    yy = 99;
+	       }
+	       else
+	       {
+		    c=yy/100;						//Julian calendar before 3 sept 1752
+	
+		    if(mm == 13 || mm ==14)
+			 yy=yy%100 - 1;
+		    else
+			 yy=yy%100;
+	       }
+	
+	       t=yy/4;
+	       z=2.6*mm +2.6;
+	       g=c/4;
+	       day = (dd + z + yy + t + 5 + 6*c)%7;
+	       flag =2;	
+	  }
+     }
+}
+
+void Date::print_day()
+{
+     if(flag ==1)
+	  cout<<"According to Gregorian calendar day is: ";
+     else if(flag == 2)
+	  cout<<"According to Julian calendar day is: ";
+     else if(flag == 3)
+     {
+	  cout<<"Sorry This date does not exist in Europian calendar";
+	  exit(0);
+     }
+     // cout<<"Day is : ";
+     switch(day)
+     {
+     case 1:
+	  cout<<"Sunday";
+	  break;
+     case 2:
+	  cout<<"Monday";
+	  break;
+     case 3:
+	  cout<<"Tuesday";
+	  break;
+     case 4:
+	  cout<<"Wednesday";
+	  break;
+     case 5:
+	  cout<<"Thursday";
+	  break;
+     case 6:
+	  cout<<"Friday";
+	  break;
+     case 0:
+	  cout<<"Saturday";
+	  break;		
+     }		
+     cout<<endl;
+
+}
+
+int main ()
+{
+     Date d;
+     d.get_date();
+     if(d.error()!=0)
+	  exit(0);
+
+     d.calculate_day();
+     d.print_day ();
+}
+
+

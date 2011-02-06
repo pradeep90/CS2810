@@ -1,0 +1,16 @@
+Team Members:
+
+1)S. Pradeep Kumar    cs09b021
+2)Prateek Agrawal     cs09b018
+3)K. Himaja           cs09b014
+
+Q1)Compare and contrast the representation of a point in the cartesian
+co-ordinate system and in the polar co-ordinate system
+
+Sol:
+
+Representation:
+	Cartisian co-ordinate system is represtented by X & Y axis which are fixed and perpendicular to each other.
+	while Polar is represented by perpendicular axis R & Theta which are can change .
+	
+	Also range of x & y is whole number line where as in polar co-ordinate system range of R is whole number line where as range of theta is from [0,2*PI]

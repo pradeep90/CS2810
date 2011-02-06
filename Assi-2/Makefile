@@ -6,3 +6,9 @@ BigInt.o: BigInt.cpp llist.h
 
 llist.o: llist.cpp llist.h
 	g++ -c llist.cpp
+
+doubly-linked-list.exe:
+	g++ llist.o -o doubly-linked-list.exe
+
+debug-BigInt.exe: BigInt.cpp llist.cpp llist.h
+	g++ -g BigInt.cpp llist.cpp -o debug-BigInt.exe
