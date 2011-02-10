@@ -370,74 +370,108 @@ BigInt BigInt::division (BigInt a, BigInt b)
 {
      l.clear();
      sign = 0;
-     bool flag = 0;
-     
-     // if (!(a >= b)){
-     // 	  this->from_integer (0);
-     // 	  return a;
-     // }
-     
+     bool flag = 0, first = 1;
 
      IntList::Iterator dig_a, end_dig = a.l.rev_end ();
      dig_a = a.l.rev_begin ();
      a.len = a.length ();
      b.len = b.length ();
 
-     BigInt c, d, temp, rem, div;
+     BigInt c, psum, temp, rem, divisor, sum;
+     divisor = b;
      rem.from_integer (0);
      c.from_integer (10);
-     d.from_integer (0);
+     psum.from_integer (0);
      temp.from_integer (0);
      // cout << rem.to_string () << endl;
      // cout << c.to_string () << endl;
      // cout << temp.to_string () << endl;
 
-     int quo, carry = 0, i, j;
+     int quo, carry = 0, i, j, ctr;
 
-     while (dig_a != end_dig){
-	  temp.l.clear ();
-	  temp.sign = 0;
-	  rem.multiply (rem, c);
-	  cout << "Rem : " << rem.to_string () << endl;
-	  i = 0;
-	  d.from_integer (0);
-	  while (dig_a != end_dig && !(d >= b)){
-	       temp.l.push_front (*dig_a);
-	       d.add (rem, temp);
-	       --dig_a;
-	       i++;
-	  }
-	  cout << "temp : " << temp.to_string () << endl;
-	  d.add (temp, rem);
-	  // if (i < b.len){
-	  //      temp.add (rem, temp);
-	  //      // flag = 1;
-	  //      // break;
-	  // }
-	  if (!(d >= b)){
-	       if (dig_a == end_dig){ // End of story
-		    rem.add (rem, temp);
+     while (1){
+	  this->l.print ();
+	  psum = rem;
+	  temp.from_integer (0);
+	  first = 1;
+	  while (!(psum >= divisor)){
+	       if (dig_a == end_dig){
 		    flag = 1;
+		    rem.add (rem, temp);
 		    break;
 	       }
+	       if (first){
+		    first = 0;
+	       }
+	       else
+		    this->l.push_front (0);
+	       rem.multiply (rem, c);
 	       temp.l.push_front (*dig_a);
+	       psum.add (rem, temp);
 	       --dig_a;
 	  }
-	  temp.add (temp, rem);
-	  cout << "Comp : " << (temp >= b) << endl;
-	  div = b;
-	  quo = 0;
-	  while (temp >= div){
-	       div.add (div, b);
-	       quo++;
+	  if (flag){
+	       break;
 	  }
-	  div.subtract(div, b);
-	  rem.subtract (temp, div);
-	  l.push_front (quo);
+	  sum.from_integer (0);
+	  ctr = 0;
+	  
+	  while (psum >= sum){
+	       sum.add (sum, divisor);
+	       ctr++;
+	  }
+	  sum.subtract (sum, divisor);
+	  ctr--;
+	  this->l.push_front (ctr);
+	  cout << "Rem : " << rem.to_string () << endl;
+     	  cout << "temp : " << temp.to_string () << endl;
+	  rem.subtract (psum, sum);
      }
+     
+     // while (dig_a != end_dig){
+     // 	  temp.l.clear ();
+     // 	  temp.sign = 0;
+     // 	  rem.multiply (rem, c);
+     // 	  cout << "Rem : " << rem.to_string () << endl;
+     // 	  i = 0;
+     // 	  d.from_integer (0);
+     // 	  while (dig_a != end_dig && !(d >= b)){
+     // 	       temp.l.push_front (*dig_a);
+     // 	       d.add (rem, temp);
+     // 	       --dig_a;
+     // 	       i++;
+     // 	  }
+     // 	  cout << "temp : " << temp.to_string () << endl;
+     // 	  d.add (temp, rem);
+     // 	  // if (i < b.len){
+     // 	  //      temp.add (rem, temp);
+     // 	  //      // flag = 1;
+     // 	  //      // break;
+     // 	  // }
+     // 	  if (!(d >= b)){
+     // 	       if (dig_a == end_dig){ // End of story
+     // 		    rem.add (rem, temp);
+     // 		    flag = 1;
+     // 		    break;
+     // 	       }
+     // 	       temp.l.push_front (*dig_a);
+     // 	       --dig_a;
+     // 	  }
+     // 	  temp.add (temp, rem);
+     // 	  cout << "Comp : " << (temp >= b) << endl;
+     // 	  div = b;
+     // 	  quo = 0;
+     // 	  while (temp >= div){
+     // 	       div.add (div, b);
+     // 	       quo++;
+     // 	  }
+     // 	  div.subtract(div, b);
+     // 	  rem.subtract (temp, div);
+     // 	  l.push_front (quo);
+     // }
 
-     cout << "Quo : " << quo << endl;
-     cout << rem.to_string () << endl;
+     // cout << "Quo : " << quo << endl;
+     // cout << rem.to_string () << endl;
      return rem;
 }
 
@@ -494,15 +528,25 @@ int main()
      
      // a.from_string (string ("208340928"));
      // b.from_string (string ("2049823424"));
-     a.from_string (string ("10"));
-     b.from_string (string ("12243982420432"));
-     // a.from_string (string ("240982409100"));
-     // b.from_string (string ("1224398242432"));
+     // a.from_string (string ("100"));
+     // b.from_string (string ("1224"));
+     a.from_string (string ("100"));
+     b.from_string (string ("100000000000220000000000040000000000039824200000000000432"));
      // (- 1224398242432.0 (* 5 240982409100.0))
      BigInt d;
-     d = c.division (b, a);
-     cout << c.to_string () << endl;
-     cout << d.to_string () << endl;
+     string s;
+     // for (int i = 0; i < 3; i++) {
+     // 	  cout << "Enter a : " << endl;
+     // 	  cin >> s;
+     // 	  a.from_string (s);
+     // 	  cout << "Enter b : " << endl;
+     // 	  cin >> s;
+     // 	  b.from_string (s);
+	  d = c.division (b, a);
+	  cout << "Quotient : " << c.to_string () << endl;
+	  cout << "Remainder : " << d.to_string () << endl;
+     // }
+     
      c.add (a, b);
      cout << c.to_string () << endl;
      c.subtract (b, c);
@@ -523,7 +567,6 @@ int main()
      fstream infile, outfile;
      infile.open ("inputFile");
      outfile.open ("outputFile", fstream::out);
-     string s;
      
      infile >> s;
      cout << "Input : " << s << endl;
