@@ -372,6 +372,7 @@ BigInt BigInt::division (BigInt a, BigInt b)
      sign = 0;
      bool flag = 0, first = 1;
 
+
      IntList::Iterator dig_a, end_dig = a.l.rev_end ();
      dig_a = a.l.rev_begin ();
      a.len = a.length ();
@@ -383,14 +384,23 @@ BigInt BigInt::division (BigInt a, BigInt b)
      c.from_integer (10);
      psum.from_integer (0);
      temp.from_integer (0);
+
      // cout << rem.to_string () << endl;
      // cout << c.to_string () << endl;
      // cout << temp.to_string () << endl;
+     if (a.l.empty ()){
+	  *this = temp;
+	  return temp;
+     }
+     if (b.l.empty ()){
+	  cout << "Error : Divide by Zero!" << endl;
+     }
+     
 
      int quo, carry = 0, i, j, ctr;
 
      while (1){
-	  this->l.print ();
+	  // this->l.print ();
 	  psum = rem;
 	  temp.from_integer (0);
 	  first = 1;
@@ -423,8 +433,8 @@ BigInt BigInt::division (BigInt a, BigInt b)
 	  sum.subtract (sum, divisor);
 	  ctr--;
 	  this->l.push_front (ctr);
-	  cout << "Rem : " << rem.to_string () << endl;
-     	  cout << "temp : " << temp.to_string () << endl;
+	  // cout << "Rem : " << rem.to_string () << endl;
+     	  // cout << "temp : " << temp.to_string () << endl;
 	  rem.subtract (psum, sum);
      }
      
@@ -535,17 +545,17 @@ int main()
      // (- 1224398242432.0 (* 5 240982409100.0))
      BigInt d;
      string s;
-     // for (int i = 0; i < 3; i++) {
-     // 	  cout << "Enter a : " << endl;
-     // 	  cin >> s;
-     // 	  a.from_string (s);
-     // 	  cout << "Enter b : " << endl;
-     // 	  cin >> s;
-     // 	  b.from_string (s);
+     for (int i = 0; i < 3; i++) {
+     	  cout << "Enter a : " << endl;
+     	  cin >> s;
+     	  a.from_string (s);
+     	  cout << "Enter b : " << endl;
+     	  cin >> s;
+     	  b.from_string (s);
 	  d = c.division (b, a);
 	  cout << "Quotient : " << c.to_string () << endl;
 	  cout << "Remainder : " << d.to_string () << endl;
-     // }
+     }
      
      c.add (a, b);
      cout << c.to_string () << endl;
