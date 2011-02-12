@@ -24,14 +24,14 @@ class expression
 public:     
      void get_infix_expression (); 		// Which will get user postfix_arr into infix_str //to be done
      void convert_to_postfix ();   		// Which will convert infix_str to postfix and put result in postfix_str
-//     void evaluate_postfix_expression ();	//to be done
+     void evaluate_postfix_expression ();	//to be done
 //     void evaluate (){
 //	  convert_to_postfix ();		//to be done
 //	  evaluate_postfix_expression ();
 
 //     void write_to_file (string filename);	//to be done
 //     void print ();				// Just cout all the value
-      void display();				//cout postfix string, for can be removed after whole prgm is written
+     void display();				//cout postfix string, for can be removed after whole prgm is written
 };
 
      
@@ -60,26 +60,26 @@ int precedence(char c)
 
 bool is_operator(char a)
 {
-	if(((a!='*')&&(a!='+')&&(a!='-')&&(a!='/')&&(a!='^')&&(a!='(')&&(a!=')')))
-		return false;
-	else
-		return true;
+     if(((a!='*')&&(a!='+')&&(a!='-')&&(a!='/')&&(a!='^')&&(a!='(')&&(a!=')')))
+	  return false;
+     else
+	  return true;
 }
 
 bool is_end_of_sub_expression (char a)
 {
-	if (a==')')
-		return true;
-	else
-		 return false;
+     if (a==')')
+	  return true;
+     else
+	  return false;
 }
 
 bool is_numeral ( char c)
 { 
-       if(c>'9' || c<'0')
-		return false;
-	else
-		return true;
+     if(c>'9' || c<'0')
+	  return false;
+     else
+	  return true;
 }
 
 
@@ -117,12 +117,12 @@ void expression::convert_to_postfix()
 
 	  else if (is_end_of_sub_expression (infix_arr[i]) == true)
 	  {
-	       c = oper_stack.pop();
+	       c = char (oper_stack.pop());
 	       while(c!='(')
 	       {
 		    postfix_arr[j++] = c;
 		    postfix_arr[j++] = ' ';
-		    c = oper_stack.pop();
+		    c = char (oper_stack.pop());
 	       }
 	  }
 
@@ -133,7 +133,7 @@ void expression::convert_to_postfix()
 		    oper_stack.push(c);
 	       else
 	       {
-		    temp = oper_stack.pop();
+		    temp = char (oper_stack.pop());
 		    if(precedence(c)==1)
 		    {
 			 oper_stack.push(temp);
@@ -146,7 +146,7 @@ void expression::convert_to_postfix()
 			 {
 			      postfix_arr[j++] = temp;
 			      postfix_arr[j++] = ' ';
-			      temp = oper_stack.pop();
+			      temp = char (oper_stack.pop());
 			 }
 			 if(precedence(c)<=precedence(temp))		
 			 {
@@ -178,20 +178,29 @@ void expression::convert_to_postfix()
      }
      while(!oper_stack.isempty())
      {
-	  c = oper_stack.pop();
+	  c = char (oper_stack.pop());
 	  postfix_arr[j++] = c;
 	  postfix_arr[j++] = ' ';
      }
      postfix_arr[--j] = '\0';
 }
 
+void evaluate_postfix_expression ()
+{
+     
+     // while (i < arr_size){
+     // 	  next_token = postfix_arr[i];
+     // 	  if (is_numeral (next_token)){
+	       
+}
+
 
 main()
 {
-	expression e;
-	e.get_infix_expression ();
-	e.convert_to_postfix ();		//for testing can be removed later when whole prgm is finished
-	e.display();				//for testing
+     expression e;
+     e.get_infix_expression ();
+     e.convert_to_postfix ();		//for testing can be removed later when whole prgm is finished
+     e.display();				//for testing
 //	e.evaluate ();
 //	e.write_to_file (inputFile);
 }
