@@ -1,0 +1,17 @@
+To compile:
+
+1. Points-Complex program, run
+
+make Points-Complex.exe
+
+2. BigInt (with division) program, run
+
+make BigInt.exe
+
+3. Calendar program, run
+
+make calendar1.exe
+
+4. Roman Arithmetic program, run
+
+make roman-arithmetic.exe
